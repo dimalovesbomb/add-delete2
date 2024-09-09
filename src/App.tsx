@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useAppDispatch, useAppSelector } from './store';
+import { addCard, prepareCardRemoval } from './store/cardsReducer';
+import { Button } from './Components/Button';
+import { CardContainer } from './Components/CardContainer';
+import { MAX_BLOCKS } from './constants';
+import './styles.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    const dispatch = useAppDispatch();
+    const { cards } = useAppSelector((state) => state.cards);
+
+    return (
+        <div>
+            <Button variant="add" onClick={() => dispatch(addCard())} disabled={cards.length >= MAX_BLOCKS}>
+                Add
+            </Button>
+            <Button variant="delete" onClick={() => dispatch(prepareCardRemoval())}>
+                Delete
+            </Button>
+            <CardContainer />
+        </div>
+    );
 }
-
-export default App;
